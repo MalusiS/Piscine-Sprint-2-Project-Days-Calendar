@@ -1,39 +1,27 @@
 {
-  // Basic project information
   "name": "days-calendar",
   "version": "1.0.0",
   "description": "Code Your Future - Days Calendar Project (Malusi Skunyana & Rashaad Ebrahim)",
 
-  // Ensures Node treats .js/.mjs files as ES modules
   "type": "module",
 
-  // Scripts you can run with npm
   "scripts": {
-    // Launch a local development server using http-server
-    // -c-1 disables caching so you always see latest changes
     "start": "http-server -c-1",
 
-    // Run Node’s built-in test runner for common.test.mjs
     "test": "node --test",
 
-    // Generate the iCal file (days.ics) using generate-ical.mjs
     "generate:ical": "node generate-ical.mjs"
   },
 
-  // Optional metadata
   "author": "Malusi Skunyana & Rashaad Ebrahim",
   "license": "ISC",
 
-  // Dependencies (none needed unless you add libraries later)
   "dependencies": {},
 
-  // Development dependencies
   "devDependencies": {
-    // http-server is used for local testing of your web app
     "http-server": "^14.1.1"
   },
 
-  // Optional Netlify compatibility (not required, but helpful)
   "engines": {
     "node": ">=18"
   }
