@@ -34,3 +34,31 @@ const DAYS = {
   Saturday: 6,
 };
 
+export function calculateDate(year, monthName, dayName, occurrence) {
+  // get month as a num
+  const month = MONTHS[monthName];
+  //get the day of the week I'm looking for as a number
+  const targetDay = DAYS[dayName];
+
+  // Find the first occurence of the target day in a month
+
+  const firstDay = new Date(year, month, 1); // create 1st of the month
+  const firstDayOfWeek = firstDay.getDay(); //figure out the day on the 1st of the month
+
+  // figure out how many days it will be from the first of the month to get to target day
+  let daysUntilFirstTarget = (targetDay - firstDayOfWeek + 7) % 7;
+
+  // figure out 1st, 2nd, 3rd and last occurrences
+
+  // occurences will be something like dateIwant = 1 + daystill 
+}
+
+
+
+
+
+
+console.log(calculateDate(2025, "October", "Friday", "first"))
+console.log(calculateDate(2025, "October", "Friday", "second"))
+console.log(calculateDate(2025, "October", "Friday", "third"))
+console.log(calculateDate(2025, "October", "Friday", "last"))
