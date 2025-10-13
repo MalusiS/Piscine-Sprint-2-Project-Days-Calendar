@@ -37,11 +37,15 @@ const DAYS = {
 export function calculateDate(year, monthName, dayName, occurrence) {
   // get month as a num
   const month = MONTHS[monthName];
+  // habdle errors
+  if (month === undefined) throw new Error(`Invalid month name: ${monthName}`);
+
   //get the day of the week I'm looking for as a number
   const targetDay = DAYS[dayName];
+  // habdle errors
+  if (targetDay === undefined) throw new Error(`Invalid day name: ${dayName}`);
 
   // Find the first occurence of the target day in a month
-
   const firstDay = new Date(year, month, 1); // create 1st of the month
   const firstDayOfWeek = firstDay.getDay(); //figure out the day on the 1st of the month
 
@@ -50,15 +54,36 @@ export function calculateDate(year, monthName, dayName, occurrence) {
 
   // figure out 1st, 2nd, 3rd and last occurrences
 
-  // occurences will be something like dateIwant = 1 + daystill 
+  let targetDate;
+
+  switch (occurrence) {
+    case "first":
+      targetDate = new Date(year, month, 1 + daysUntilFirstTarget);
+      break;
+    case "second":
+      targetDate = new Date(year, month, 1 + daysUntilFirstTarget + 7);
+      break;
+    case "third":
+      targetDate = new Date(year, month, 1 + daysUntilFirstTarget + 14);
+      break;
+    case "last":
+      const lastDayOfMonth = new Date(year, month + 1, 0);
+      const lastDayOfWeek = lastDayOfMonth.getDay();
+      let daysBackFromEnd = (lastDayOfWeek - targetDay + 7) % 7;
+      targetDate = new Date(
+        year,
+        month,
+        lastDayOfMonth.getDate() - daysBackFromEnd
+      );
+      break;
+    default:
+      throw new Error(`Invalid occurrence: ${occurrence}`);
+  }
+  //   return targetDate.toLocaleDateString();
+  return targetDate;
 }
 
-
-
-
-
-
-console.log(calculateDate(2025, "October", "Friday", "first"))
-console.log(calculateDate(2025, "October", "Friday", "second"))
-console.log(calculateDate(2025, "October", "Friday", "third"))
-console.log(calculateDate(2025, "October", "Friday", "last"))
+console.log(calculateDate(2025, "October", "Friday", "first"));
+console.log(calculateDate(2025, "October", "Friday", "second"));
+console.log(calculateDate(2025, "October", "Friday", "third"));
+console.log(calculateDate(2025, "October", "Friday", "last"));
