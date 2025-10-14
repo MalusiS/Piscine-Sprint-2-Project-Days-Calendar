@@ -1,13 +1,6 @@
 // This is a placeholder file which shows how you can define functions which can be used from both a browser script and a node script. You can delete the contents of the file once you have understood how it works.
 
-export function getGreeting() {
-  return "Hello";
-}
-
-// I was first going to create function to retrieve the index of the months and days
-// but I figured using an object would be simpler
-
-// Month name to number
+// Month name to index
 const MONTHS = {
   January: 0,
   February: 1,
@@ -23,7 +16,7 @@ const MONTHS = {
   December: 11,
 };
 
-// Day name to number
+// Day name to index
 const DAYS = {
   Sunday: 0,
   Monday: 1,
@@ -35,24 +28,20 @@ const DAYS = {
 };
 
 export function calculateDate(year, monthName, dayName, occurrence) {
-  // get month as a num
+  // get month as an index
   const month = MONTHS[monthName];
-  // habdle errors
   if (month === undefined) throw new Error(`Invalid month name: ${monthName}`);
 
-  //get the day of the week I'm looking for as a number
+  //Get the day of the week as an index
   const targetDay = DAYS[dayName];
-  // habdle errors
   if (targetDay === undefined) throw new Error(`Invalid day name: ${dayName}`);
 
-  // Find the first occurence of the target day in a month
-  const firstDay = new Date(year, month, 1); // create 1st of the month
-  const firstDayOfWeek = firstDay.getDay(); //figure out the day on the 1st of the month
+  // Find the first occurrence of the target day in the month
+  const firstDay = new Date(year, month, 1);
+  const firstDayOfWeek = firstDay.getDay();
 
-  // figure out how many days it will be from the first of the month to get to target day
+  // Calculate days from first of month to first target day
   let daysUntilFirstTarget = (targetDay - firstDayOfWeek + 7) % 7;
-
-  // figure out 1st, 2nd, 3rd and last occurrences
 
   let targetDate;
 
@@ -77,13 +66,20 @@ export function calculateDate(year, monthName, dayName, occurrence) {
       );
       break;
     default:
-      throw new Error(`Invalid occurrence: ${occurrence}`);
+      throw new Error(
+        `Invalid occurrence: ${occurrence}. Must be one of: first, second, third, last`
+      );
   }
-  //   return targetDate.toLocaleDateString();
   return targetDate;
 }
 
-console.log(calculateDate(2025, "October", "Friday", "first"));
-console.log(calculateDate(2025, "October", "Friday", "second"));
-console.log(calculateDate(2025, "October", "Friday", "third"));
-console.log(calculateDate(2025, "October", "Friday", "last"));
+export function getCommemorativeDaysForYear(year, daysData) {
+  return daysData.map((day) => {
+    return {
+      name: day.name,
+      date: calculateDate(year, day.monthName, day.dayName, day.occurrence),
+    };
+  });
+}
+
+export { MONTHS, DAYS };
