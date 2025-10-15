@@ -1,3 +1,5 @@
+import { MONTHS } from "./common.mjs";
+
 // Helper function to get number of days in a month
 function getDaysInMonth(year, month) {
   return new Date(year, month + 1, 0).getDate();
@@ -13,7 +15,7 @@ console.log(getFirstDayOfMonth(2025, 9));
 
 // Create DOM elements and structure -- Calendar display and buttons
 
-let calendarGrid;
+let calendarGrid, monthYearDisplay;
 
 function createCalendarStructure() {
   const body = document.body;
@@ -29,10 +31,10 @@ function createCalendarStructure() {
   prevButton.id = "prev-month";
 
   // Month/Year display
-  const monthYearDisplay = document.createElement("h2");
+  monthYearDisplay = document.createElement("h2");
   monthYearDisplay.className = "month-year-display";
   monthYearDisplay.id = "month-year-display";
-  monthYearDisplay.textContent = "Month Year"; // TODO -- Add month/year dynamically from inputs
+  //   monthYearDisplay.textContent = "Month Year"; // TODO -- Add month/year dynamically from inputs
 
   // Next button
   const nextButton = document.createElement("button");
@@ -82,29 +84,42 @@ createCalendarStructure();
 // Render days on calendar
 
 function renderCalendar(year, month) {
+  // Update month/year display
+  const monthName = Object.keys(MONTHS)[month]; // Covert month index to month name
+  monthYearDisplay.textContent = `${monthName} ${year}`;
+
   // Get calendar data
   const daysInMonth = getDaysInMonth(year, month);
   const firstDayOfMonth = getFirstDayOfMonth(year, month);
+  console.log(firstDayOfMonth);
 
   for (let i = 0; i < daysInMonth; i++) {
+    // TODO Update for loop to reduce method
     const dayElement = document.createElement("div");
     dayElement.className = "day-cell";
-    const dayNumber = i + 1;
-    dayElement.textContent = dayNumber;
+    const dayNumber = i - firstDayOfMonth + 1;
+    // Logic needed for shifting 1st to correct day
+    // if first day is 3
+    // blank blank 1st
+    if (dayNumber < 0) {
+      dayElement.textContent = "";
+    } else {
+      dayElement.textContent = dayNumber;
+    }
+
     calendarGrid.appendChild(dayElement);
-    
   }
 }
 
-renderCalendar(2025, 9)
+renderCalendar(2025, 9);
 
 // Create event listeners for buttons and logic for moving months
 
 /* 
 TODOS
-* Add Month/Year
+* Add Month/Year -- DONE
 * Logic for buttons
-* Generate day numbers on grid
-* Styling
+* Generate day numbers on grid -- STARTED; Need to figure how to shift 1st to start day
+* Styling -- STARTED
 
 */
