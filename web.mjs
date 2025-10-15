@@ -10,13 +10,25 @@ function getFirstDayOfMonth(year, month) {
   return new Date(year, month, 1).getDay(); // returns index
 }
 
-console.log(getDaysInMonth(2025, 9));
-console.log(getFirstDayOfMonth(2025, 9));
-
-// Create DOM elements and structure -- Calendar display and buttons
+// State
+let currentDate = new Date();
+let currentYear = currentDate.getFullYear();
+let currentMonth = currentDate.getMonth();
 
 // DOM elements
-let calendarGrid, monthYearDisplay;
+let calendarGrid, monthYearDisplay, prevButton, nextButton;
+
+document.addEventListener("DOMContentLoaded", initCalendar);
+
+function initCalendar() {
+  createCalendarStructure();
+  renderCalendar(currentYear, currentMonth);
+  prevButton.addEventListener("click", () => {
+    console.log("click");
+    currentMonth--;
+    renderCalendar(currentYear, currentMonth);
+  });
+}
 
 // Calendar display and buttons
 function createCalendarStructure() {
@@ -27,7 +39,7 @@ function createCalendarStructure() {
   header.className = "calendar-header";
 
   // Previous button
-  const prevButton = document.createElement("button");
+  prevButton = document.createElement("button");
   prevButton.className = "nav-button";
   prevButton.textContent = "< Previous";
   prevButton.id = "prev-month";
@@ -39,7 +51,7 @@ function createCalendarStructure() {
   //   monthYearDisplay.textContent = "Month Year"; // TODO -- Add month/year dynamically from inputs
 
   // Next button
-  const nextButton = document.createElement("button");
+  nextButton = document.createElement("button");
   nextButton.className = "nav-button";
   nextButton.textContent = "Next >";
   nextButton.id = "next-month";
@@ -81,14 +93,14 @@ function createCalendarStructure() {
   body.appendChild(calendarContainer);
 }
 
-createCalendarStructure();
-
 // Render days on calendar
-
 function renderCalendar(year, month) {
   // Update month/year display
   const monthName = Object.keys(MONTHS)[month]; // Covert month index to month name
   monthYearDisplay.textContent = `${monthName} ${year}`;
+
+  // Clear previous calendar
+  calendarGrid.innerHTML = "";
 
   // Get calendar data
   const daysInMonth = getDaysInMonth(year, month);
@@ -96,8 +108,6 @@ function renderCalendar(year, month) {
 
   // Convert from Sunday-first (Sunday = 0) to Monday-first (Monday = 0) for rendering
   let firstDayMonday = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
-
-  console.log(firstDayMonday);
 
   for (let i = 0; i < daysInMonth + firstDayMonday; i++) {
     // TODO Update for loop to reduce method
@@ -112,8 +122,6 @@ function renderCalendar(year, month) {
     calendarGrid.appendChild(dayElement);
   }
 }
-
-renderCalendar(2025, 1);
 
 // Create event listeners for buttons and logic for moving months
 
