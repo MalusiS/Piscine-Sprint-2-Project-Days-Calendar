@@ -34,6 +34,16 @@ function setupEventListeners() {
 
 function navigateMonth(direction) {
   currentMonth += direction;
+
+  // Handle next/previous year
+  if (currentMonth < 0) {
+    currentMonth = 11;
+    currentYear--;
+  } else if (currentMonth > 11) {
+    currentMonth = 0;
+    currentYear++;
+  }
+
   renderCalendar(currentYear, currentMonth);
 }
 
