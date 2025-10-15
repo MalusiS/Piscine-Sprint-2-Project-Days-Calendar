@@ -22,21 +22,19 @@ document.addEventListener("DOMContentLoaded", initCalendar);
 
 function initCalendar() {
   createCalendarStructure();
-  renderCalendar(currentYear, currentMonth);
   setupEventListeners();
+  renderCalendar(currentYear, currentMonth);
 }
 
 // Setup event listeners for both button
 function setupEventListeners() {
-  prevButton.addEventListener("click", () => {
-    currentMonth--;
-    console.log(currentYear)
-    renderCalendar(currentYear, currentMonth);
-  });
-  nextButton.addEventListener("click", () => {
-    currentMonth++;
-    renderCalendar(currentYear, currentMonth);
-  });
+  prevButton.addEventListener("click", () => navigateMonth(-1));
+  nextButton.addEventListener("click", () => navigateMonth(1));
+}
+
+function navigateMonth(direction) {
+  currentMonth += direction;
+  renderCalendar(currentYear, currentMonth);
 }
 
 // Calendar display and buttons
@@ -107,7 +105,7 @@ function renderCalendar(year, month) {
   // Update month/year display
   const monthName = Object.keys(MONTHS)[month]; // Covert month index to month name
   monthYearDisplay.textContent = `${monthName} ${year}`;
-  console.log(monthName)
+  console.log(monthName);
 
   // Clear previous calendar
   calendarGrid.innerHTML = "";
