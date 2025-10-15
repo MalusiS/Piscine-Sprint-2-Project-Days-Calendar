@@ -1,11 +1,21 @@
-// This is a placeholder file which shows how you can access functions and data defined in other files.
-// It can be loaded into index.html.
-// Note that when running locally, in order to open a web page which uses modules, you must serve the directory over HTTP e.g. with https://www.npmjs.com/package/http-server
-// You can't open the index.html file using a file:// URL.
 
-import { getGreeting } from "./common.mjs";
-import daysData from "./days.json" with { type: "json" };
 
-window.onload = function() {
-    document.querySelector("body").innerText = `${getGreeting()} - there are ${daysData.length} known days`;
+// Helper function to get number of days in a month
+function getDaysInMonth(year, month) {
+  return new Date(year, month + 1, 0).getDate();
 }
+
+// Helper function to get day of week for first day of month
+function getFirstDayOfMonth(year, month) {
+  return new Date(year, month, 1).getDay();
+}
+
+
+// Create DOM elements
+
+
+// Create calendar structure -- Calendar display and buttons
+
+// Create event listeners for buttons and logic for moving moths
+
+// Render days on calendar
