@@ -13,8 +13,6 @@ console.log(getFirstDayOfMonth(2025, 9));
 
 // Create DOM elements and structure -- Calendar display and buttons
 
-
-
 function createCalendarStructure() {
   const body = document.body;
 
@@ -32,7 +30,7 @@ function createCalendarStructure() {
   const monthYearDisplay = document.createElement("h2");
   monthYearDisplay.className = "month-year-display";
   monthYearDisplay.id = "month-year-display";
-  monthYearDisplay.textContent = "Month Year" // TODO -- Add month/year dynamically from inputs
+  monthYearDisplay.textContent = "Month Year"; // TODO -- Add month/year dynamically from inputs
 
   // Next button
   const nextButton = document.createElement("button");
@@ -40,22 +38,41 @@ function createCalendarStructure() {
   nextButton.textContent = "Next >";
   nextButton.id = "next-month";
 
+  // Add elements to header
   header.appendChild(prevButton);
   header.appendChild(monthYearDisplay);
   header.appendChild(nextButton);
 
+  // Create calendar grid container
+  const calendarContainer = document.createElement("div");
+  calendarContainer.className = "calendar-container";
+  calendarContainer.id = "calendar-container";
+
+  // Create weekday headers
+  const weekdaysHeader = document.createElement("div");
+  weekdaysHeader.className = "weekdays-header";
+
+  const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  weekdays.forEach((day) => {
+    const dayElement = document.createElement("div");
+    dayElement.className = "weekday";
+    dayElement.textContent = day;
+    weekdaysHeader.appendChild(dayElement);
+  });
+
+  // Add weekdaysHeader to container
+  calendarContainer.appendChild(weekdaysHeader);
 
   // Add to body
   body.appendChild(header);
+  body.appendChild(calendarContainer);
 }
 
 createCalendarStructure();
 
-
 // Create event listeners for buttons and logic for moving moths
 
 // Render days on calendar
-
 
 /* 
 TODOS
