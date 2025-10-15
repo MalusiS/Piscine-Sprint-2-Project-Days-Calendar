@@ -15,8 +15,10 @@ console.log(getFirstDayOfMonth(2025, 9));
 
 // Create DOM elements and structure -- Calendar display and buttons
 
+// DOM elements
 let calendarGrid, monthYearDisplay;
 
+// Calendar display and buttons
 function createCalendarStructure() {
   const body = document.body;
 
@@ -91,27 +93,27 @@ function renderCalendar(year, month) {
   // Get calendar data
   const daysInMonth = getDaysInMonth(year, month);
   const firstDayOfMonth = getFirstDayOfMonth(year, month);
-  console.log(firstDayOfMonth);
 
-  for (let i = 0; i < daysInMonth; i++) {
+  // Convert from Sunday-first (Sunday = 0) to Monday-first (Monday = 0) for rendering
+  let firstDayMonday = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
+
+  console.log(firstDayMonday);
+
+  for (let i = 0; i < daysInMonth + firstDayMonday; i++) {
     // TODO Update for loop to reduce method
     const dayElement = document.createElement("div");
     dayElement.className = "day-cell";
-    const dayNumber = i - firstDayOfMonth + 1;
-    // Logic needed for shifting 1st to correct day
-    // if first day is 3
-    // blank blank 1st
-    if (dayNumber < 0) {
-      dayElement.textContent = "";
-    } else {
-      dayElement.textContent = dayNumber;
-    }
+    const dayNumber = i - firstDayMonday + 1;
+
+    dayNumber <= 0
+      ? (dayElement.textContent = "")
+      : (dayElement.textContent = dayNumber);
 
     calendarGrid.appendChild(dayElement);
   }
 }
 
-renderCalendar(2025, 9);
+renderCalendar(2025, 1);
 
 // Create event listeners for buttons and logic for moving months
 
@@ -121,5 +123,8 @@ TODOS
 * Logic for buttons
 * Generate day numbers on grid -- STARTED; Need to figure how to shift 1st to start day
 * Styling -- STARTED
+* renderCalender needs to render based on the current date
+* Todays date needs to be indicated
+* global variables -- some variables need to be moved out of their function
 
 */
