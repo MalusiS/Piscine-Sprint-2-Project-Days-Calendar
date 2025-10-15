@@ -13,6 +13,8 @@ console.log(getFirstDayOfMonth(2025, 9));
 
 // Create DOM elements and structure -- Calendar display and buttons
 
+let calendarGrid;
+
 function createCalendarStructure() {
   const body = document.body;
 
@@ -60,8 +62,15 @@ function createCalendarStructure() {
     weekdaysHeader.appendChild(dayElement);
   });
 
-  // Add weekdaysHeader to container
+  // Create calendar grid
+  calendarGrid = document.createElement("div");
+  calendarGrid.className = "calendar-grid";
+  calendarGrid.id = "calendar-grid";
+  //   calendarGrid.textContent = "1";
+
+  // Add elements to container
   calendarContainer.appendChild(weekdaysHeader);
+  calendarContainer.appendChild(calendarGrid);
 
   // Add to body
   body.appendChild(header);
@@ -70,9 +79,26 @@ function createCalendarStructure() {
 
 createCalendarStructure();
 
-// Create event listeners for buttons and logic for moving moths
-
 // Render days on calendar
+
+function renderCalendar(year, month) {
+  // Get calendar data
+  const daysInMonth = getDaysInMonth(year, month);
+  const firstDayOfMonth = getFirstDayOfMonth(year, month);
+
+  for (let i = 0; i < daysInMonth; i++) {
+    const dayElement = document.createElement("div");
+    dayElement.className = "day-cell";
+    const dayNumber = i + 1;
+    dayElement.textContent = dayNumber;
+    calendarGrid.appendChild(dayElement);
+    
+  }
+}
+
+renderCalendar(2025, 9)
+
+// Create event listeners for buttons and logic for moving months
 
 /* 
 TODOS
