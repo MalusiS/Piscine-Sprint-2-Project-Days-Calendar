@@ -51,7 +51,7 @@ body {
   background: white;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  /* overflow: hidden; */
+  overflow: hidden;
 }
 
 /* Weekdays Header */
@@ -70,8 +70,19 @@ body {
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: repeat(5, 100px);
   background: #e2e8f0;
   gap: 1px;
   padding: 1px;
+}
+
+/* Day Cells */
+.day-cell {
+  padding: 0.5rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: relative;
+  min-height: 80px;
+  border-radius: 5px;
+  transition: background-color 0.2s;
 }

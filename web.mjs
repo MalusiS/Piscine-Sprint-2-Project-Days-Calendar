@@ -18,6 +18,7 @@ let currentMonth = currentDate.getMonth();
 // DOM elements
 let calendarGrid, monthYearDisplay, prevButton, nextButton;
 
+// Used DOMContentLoaded as we're not waiting for images to load, it would be preferred over window.onload
 document.addEventListener("DOMContentLoaded", initCalendar);
 
 function initCalendar() {
@@ -99,7 +100,6 @@ function createCalendarStructure() {
   calendarGrid = document.createElement("div");
   calendarGrid.className = "calendar-grid";
   calendarGrid.id = "calendar-grid";
-  //   calendarGrid.textContent = "1";
 
   // Add elements to container
   calendarContainer.appendChild(weekdaysHeader);
@@ -115,7 +115,6 @@ function renderCalendar(year, month) {
   // Update month/year display
   const monthName = Object.keys(MONTHS)[month]; // Covert month index to month name
   monthYearDisplay.textContent = `${monthName} ${year}`;
-  console.log(monthName);
 
   // Clear previous calendar
   calendarGrid.innerHTML = "";
@@ -127,30 +126,37 @@ function renderCalendar(year, month) {
   // Convert from Sunday-first (Sunday = 0) to Monday-first (Monday = 0) for rendering
   let firstDayMonday = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
 
+  if (
+    (firstDayMonday === 5 && daysInMonth === 31) ||
+    (firstDayMonday === 6 && daysInMonth >= 30)
+  ) {
+    calendarGrid.style.gridTemplateRows = `repeat(6, 80px)`;
+  } else {
+    calendarGrid.style.gridTemplateRows = `repeat(5, 80px)`;
+  }
+
   for (let i = 0; i < daysInMonth + firstDayMonday; i++) {
     // TODO Update for loop to reduce method
     const dayElement = document.createElement("div");
     dayElement.className = "day-cell";
     const dayNumber = i - firstDayMonday + 1;
 
-    dayNumber <= 0
-      ? (dayElement.textContent = "")
-      : (dayElement.textContent = dayNumber);
+    if (dayNumber <= 0) {
+      dayElement.textContent = "";
+    } else {
+      dayElement.textContent = dayNumber;
+      dayElement.style.border = "1px solid #cbd5e0";
+    }
+    // Highlight today
+    const today = new Date();
+    if (
+      year === today.getFullYear() &&
+      month === today.getMonth() &&
+      dayNumber === today.getDate()
+    ) {
+      dayElement.style.background = "#b7c0ca";
+    }
 
     calendarGrid.appendChild(dayElement);
   }
 }
-
-// Create event listeners for buttons and logic for moving months
-
-/* 
-TODOS
-* Add Month/Year -- DONE
-* Logic for buttons
-* Generate day numbers on grid -- STARTED; Need to figure how to shift 1st to start day
-* Styling -- STARTED
-* renderCalender needs to render based on the current date
-* Todays date needs to be indicated
-* global variables -- some variables need to be moved out of their function
-
-*/
