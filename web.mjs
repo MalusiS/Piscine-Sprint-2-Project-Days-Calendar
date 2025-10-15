@@ -26,14 +26,14 @@ function initCalendar() {
   setupEventListeners();
 }
 
+// Setup event listeners for both button
 function setupEventListeners() {
   prevButton.addEventListener("click", () => {
-    console.log("click");
     currentMonth--;
+    console.log(currentYear)
     renderCalendar(currentYear, currentMonth);
   });
   nextButton.addEventListener("click", () => {
-    console.log("click");
     currentMonth++;
     renderCalendar(currentYear, currentMonth);
   });
@@ -107,6 +107,7 @@ function renderCalendar(year, month) {
   // Update month/year display
   const monthName = Object.keys(MONTHS)[month]; // Covert month index to month name
   monthYearDisplay.textContent = `${monthName} ${year}`;
+  console.log(monthName)
 
   // Clear previous calendar
   calendarGrid.innerHTML = "";
