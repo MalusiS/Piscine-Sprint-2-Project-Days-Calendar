@@ -23,9 +23,18 @@ document.addEventListener("DOMContentLoaded", initCalendar);
 function initCalendar() {
   createCalendarStructure();
   renderCalendar(currentYear, currentMonth);
+  setupEventListeners();
+}
+
+function setupEventListeners() {
   prevButton.addEventListener("click", () => {
     console.log("click");
     currentMonth--;
+    renderCalendar(currentYear, currentMonth);
+  });
+  nextButton.addEventListener("click", () => {
+    console.log("click");
+    currentMonth++;
     renderCalendar(currentYear, currentMonth);
   });
 }
