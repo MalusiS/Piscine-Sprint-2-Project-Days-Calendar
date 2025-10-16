@@ -1,4 +1,4 @@
-// This is a placeholder file which shows how you can define functions which can be used from both a browser script and a node script. You can delete the contents of the file once you have understood how it works.
+import daysData from "./days.json" with { type: "json" };
 
 // Month name to index
 const MONTHS = {
@@ -75,9 +75,12 @@ export function calculateDate(year, monthName, dayName, occurrence) {
 
 export function getCommemorativeDaysForYear(year, daysData) {
   return daysData.map((day) => {
+    const date = calculateDate(year, day.monthName, day.dayName, day.occurrence);
     return {
       name: day.name,
-      date: calculateDate(year, day.monthName, day.dayName, day.occurrence),
+      date: date,
+      month: date.getMonth(),
+      dayOfMonth: date.getDate()
     };
   });
 }
