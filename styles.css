@@ -86,3 +86,31 @@ body {
   border-radius: 5px;
   transition: background-color 0.2s;
 }
+
+/* Jump Controls */
+.jump-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+#month-select,
+#year-select {
+  padding: 0.25rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background: white;
+}
+
+/* Highlight today's date */
+.today {
+  background: #b7c0ca;
+  font-weight: bold;
+  border: 2px solid #4a5568;
+}
+
+/* Filled day cell borders */
+.day-cell-filled {
+  border: 1px solid #cbd5e0;
+}
