@@ -1,11 +1,162 @@
-// This is a placeholder file which shows how you can access functions and data defined in other files.
-// It can be loaded into index.html.
-// Note that when running locally, in order to open a web page which uses modules, you must serve the directory over HTTP e.g. with https://www.npmjs.com/package/http-server
-// You can't open the index.html file using a file:// URL.
+import { MONTHS } from "./common.mjs";
 
-import { getGreeting } from "./common.mjs";
-import daysData from "./days.json" with { type: "json" };
+// Helper function to get number of days in a month
+function getDaysInMonth(year, month) {
+  return new Date(year, month + 1, 0).getDate();
+}
 
-window.onload = function() {
-    document.querySelector("body").innerText = `${getGreeting()} - there are ${daysData.length} known days`;
+// Helper function to get day of week for first day of month
+function getFirstDayOfMonth(year, month) {
+  return new Date(year, month, 1).getDay(); // returns index
+}
+
+// State
+let currentDate = new Date();
+let currentYear = currentDate.getFullYear();
+let currentMonth = currentDate.getMonth();
+
+// DOM elements
+let calendarGrid, monthYearDisplay, prevButton, nextButton;
+
+// Used DOMContentLoaded as we're not waiting for images to load, it would be preferred over window.onload
+document.addEventListener("DOMContentLoaded", initCalendar);
+
+function initCalendar() {
+  createCalendarStructure();
+  setupEventListeners();
+  renderCalendar(currentYear, currentMonth);
+}
+
+// Setup event listeners for both button
+function setupEventListeners() {
+  prevButton.addEventListener("click", () => navigateMonth(-1));
+  nextButton.addEventListener("click", () => navigateMonth(1));
+}
+
+function navigateMonth(direction) {
+  currentMonth += direction;
+
+  // Handle next/previous year
+  if (currentMonth < 0) {
+    currentMonth = 11;
+    currentYear--;
+  } else if (currentMonth > 11) {
+    currentMonth = 0;
+    currentYear++;
+  }
+
+  renderCalendar(currentYear, currentMonth);
+}
+
+// Calendar display and buttons
+function createCalendarStructure() {
+  const body = document.body;
+
+  // Create header with buttons
+  const header = document.createElement("header");
+  header.className = "calendar-header";
+
+  // Previous button
+  prevButton = document.createElement("button");
+  prevButton.className = "nav-button";
+  prevButton.textContent = "< Previous";
+  prevButton.id = "prev-month";
+
+  // Month/Year display
+  monthYearDisplay = document.createElement("h2");
+  monthYearDisplay.className = "month-year-display";
+  monthYearDisplay.id = "month-year-display";
+  //   monthYearDisplay.textContent = "Month Year"; // TODO -- Add month/year dynamically from inputs
+
+  // Next button
+  nextButton = document.createElement("button");
+  nextButton.className = "nav-button";
+  nextButton.textContent = "Next >";
+  nextButton.id = "next-month";
+
+  // Add elements to header
+  header.appendChild(prevButton);
+  header.appendChild(monthYearDisplay);
+  header.appendChild(nextButton);
+
+  // Create calendar grid container
+  const calendarContainer = document.createElement("div");
+  calendarContainer.className = "calendar-container";
+  calendarContainer.id = "calendar-container";
+
+  // Create weekday headers
+  const weekdaysHeader = document.createElement("div");
+  weekdaysHeader.className = "weekdays-header";
+
+  const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  weekdays.forEach((day) => {
+    const dayElement = document.createElement("div");
+    dayElement.className = "weekday";
+    dayElement.textContent = day;
+    weekdaysHeader.appendChild(dayElement);
+  });
+
+  // Create calendar grid
+  calendarGrid = document.createElement("div");
+  calendarGrid.className = "calendar-grid";
+  calendarGrid.id = "calendar-grid";
+
+  // Add elements to container
+  calendarContainer.appendChild(weekdaysHeader);
+  calendarContainer.appendChild(calendarGrid);
+
+  // Add to body
+  body.appendChild(header);
+  body.appendChild(calendarContainer);
+}
+
+// Render days on calendar
+function renderCalendar(year, month) {
+  // Update month/year display
+  const monthName = Object.keys(MONTHS)[month]; // Covert month index to month name
+  monthYearDisplay.textContent = `${monthName} ${year}`;
+
+  // Clear previous calendar
+  calendarGrid.innerHTML = "";
+
+  // Get calendar data
+  const daysInMonth = getDaysInMonth(year, month);
+  const firstDayOfMonth = getFirstDayOfMonth(year, month);
+
+  // Convert from Sunday-first (Sunday = 0) to Monday-first (Monday = 0) for rendering
+  let firstDayMonday = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
+
+  if (
+    (firstDayMonday === 5 && daysInMonth === 31) ||
+    (firstDayMonday === 6 && daysInMonth >= 30)
+  ) {
+    calendarGrid.style.gridTemplateRows = `repeat(6, 80px)`;
+  } else {
+    calendarGrid.style.gridTemplateRows = `repeat(5, 80px)`;
+  }
+
+  for (let i = 0; i < daysInMonth + firstDayMonday; i++) {
+    // TODO Update for loop to reduce method
+    const dayElement = document.createElement("div");
+    dayElement.className = "day-cell";
+    const dayNumber = i - firstDayMonday + 1;
+
+    if (dayNumber <= 0) {
+      dayElement.textContent = "";
+    } else {
+      dayElement.textContent = dayNumber;
+      dayElement.style.border = "1px solid #cbd5e0";
+    }
+    // Highlight today
+    const today = new Date();
+    if (
+      year === today.getFullYear() &&
+      month === today.getMonth() &&
+      dayNumber === today.getDate()
+    ) {
+      dayElement.style.background = "#b7c0ca";
+    }
+
+    calendarGrid.appendChild(dayElement);
+  }
 }
