@@ -1,4 +1,5 @@
-import { MONTHS } from "./common.mjs";
+import { MONTHS, getCommemorativeDaysForYear } from "./common.mjs";
+import daysData from "./days.json" with { type: "json" };
 
 // --- Helper functions ---
 function getDaysInMonth(year, month) {
@@ -9,13 +10,27 @@ function getFirstDayOfMonth(year, month) {
   return new Date(year, month, 1).getDay();
 }
 
+function getCommemorativeDaysForMonth(commemorationDayData, year, month) {
+  // Filter commemorative days for the specific month and year
+  return commemorationDayData.filter((commemorationDay) => {
+    // Check if the commemorative day's date matches the current month
+    return commemorationDay.date.getMonth() === month && 
+           commemorationDay.date.getFullYear() === year;
+  });
+}
+
 // --- State ---
 let currentDate = new Date();
 let currentYear = currentDate.getFullYear();
 let currentMonth = currentDate.getMonth();
 
 // --- DOM Elements ---
-let calendarGrid, monthYearDisplay, prevButton, nextButton, monthSelect, yearSelect;
+let calendarGrid,
+  monthYearDisplay,
+  prevButton,
+  nextButton,
+  monthSelect,
+  yearSelect;
 
 // Initialize calendar on page load
 document.addEventListener("DOMContentLoaded", initCalendar);
@@ -132,7 +147,7 @@ function createCalendarStructure() {
 }
 
 // --- Render calendar days ---
-function renderCalendar(year, month) {
+function renderCalendar(year, month, specialDays) {
   const monthName = Object.keys(MONTHS)[month];
   monthYearDisplay.textContent = `${monthName} ${year}`;
   calendarGrid.innerHTML = "";
@@ -159,8 +174,18 @@ function renderCalendar(year, month) {
     const dayNumber = i - firstDayMonday + 1;
 
     if (dayNumber > 0 && dayNumber <= daysInMonth) {
-      cell.textContent = dayNumber;
-      cell.classList.add("day-cell-filled");
+      const dayNumberElement = document.createElement("div");
+      dayNumberElement.className = "day-number";
+      dayNumberElement.textContent = dayNumber;
+      
+      cell.appendChild(dayNumberElement);
+
+      if (dayNumber === specialDays.dayOfMonth) {
+        const commemorationDayElement = document.createElement("div");
+        commemorationDayElement.className = "commemoration-day";
+        commemorationDayElement.textContent = specialDays.name;
+        cell.appendChild(commemorationDayElement);
+      }
 
       // Restore border styling (Rashaad's original)
       cell.style.border = "1px solid #cbd5e0";
