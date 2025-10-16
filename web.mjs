@@ -158,6 +158,17 @@ function renderCalendar(year, month, specialDays) {
 
   const today = new Date();
 
+    // Get commemorative days for this month
+  const commemorativeDaysForYear = getCommemorativeDaysForYear(year, daysData);
+  const commemorativeDaysForMonth = getCommemorativeDaysForMonth(commemorativeDaysForYear, year, month);
+  
+  // Create a lookup map for quick access 
+  // Much better than looping through array each time
+  const commemorativeDaysMap = {};
+  commemorativeDaysForMonth.forEach(day => {
+    commemorativeDaysMap[day.dayOfMonth] = day;
+  });
+
   // Adjust grid height depending on number of weeks
   if (
     (firstDayMonday === 5 && daysInMonth === 31) ||
@@ -180,11 +191,14 @@ function renderCalendar(year, month, specialDays) {
       
       cell.appendChild(dayNumberElement);
 
-      if (dayNumber === specialDays.dayOfMonth) {
+      // Check if this day has a commemorative day (FIXED)
+      if (commemorativeDaysMap[dayNumber]) {
+        const commemorativeDay = commemorativeDaysMap[dayNumber];
         const commemorationDayElement = document.createElement("div");
         commemorationDayElement.className = "commemoration-day";
-        commemorationDayElement.textContent = specialDays.name;
+        commemorationDayElement.textContent = commemorativeDay.name;
         cell.appendChild(commemorationDayElement);
+        cell.classList.add("has-commemoration");
       }
 
       // Restore border styling (Rashaad's original)
