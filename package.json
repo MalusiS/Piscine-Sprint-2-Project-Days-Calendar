@@ -1,28 +1,26 @@
 {
   "name": "days-calendar",
   "version": "1.0.0",
-  "description": "Code Your Future - Days Calendar Project (Malusi Skunyana & Rashaad Ebrahim)",
-
+  "description": "A web and Node.js project that displays commemorative days on a calendar and generates an iCal file (days.ics) for 2020–2030.",
   "type": "module",
-
+  "main": "web.mjs",
   "scripts": {
-    "start": "http-server -c-1",
-
+    "start": "npx http-server",
     "test": "node --test",
-
-    "generate:ical": "node generate-ical.mjs"
+    "generate-ical": "node generate-ical.mjs"
   },
-
-  "author": "Malusi Skunyana & Rashaad Ebrahim",
-  "license": "ISC",
-
+  "keywords": [
+    "calendar",
+    "ical",
+    "javascript",
+    "date",
+    "commemorative-days",
+    "node"
+  ],
+  "author": "Malusi Skunyana and Rashaad Ebrahim",
+  "license": "MIT",
   "dependencies": {},
-
   "devDependencies": {
     "http-server": "^14.1.1"
-  },
-
-  "engines": {
-    "node": ">=18"
   }
 }
