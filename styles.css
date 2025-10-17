@@ -94,8 +94,46 @@ body {
 /* Jump Controls */
 .jump-controls {
   display: flex;
-  gap: 0.5rem;
-  align-items: center;
+  gap: 1rem;
+  align-items: flex-end;
+}
+
+.select-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.select-group label {
+  font-size: 0.8rem;
+  margin-bottom: 0.25rem;
+  color: #4a5568;
+  font-weight: bold;
+}
+
+.jump-controls select {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 0.25rem;
+  background: white;
+  font-size: 0.9rem;
+}
+
+.jump-controls select:focus {
+  outline: 2px solid #3182ce;
+  outline-offset: 2px;
+}
+
+/* Screen reader only class */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 #month-select,
@@ -133,6 +171,7 @@ body {
 
 .commemoration-day {
   font-size: 0.7rem;
+  font-weight: 400;
   background: #ffc107;
   color: #333;
   padding: 0.1rem 0.2rem;

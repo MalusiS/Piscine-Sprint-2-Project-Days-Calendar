@@ -96,6 +96,15 @@ function createCalendarStructure() {
   const jumpControls = document.createElement("div");
   jumpControls.className = "jump-controls";
 
+  // Create month select with label
+  const monthGroup = document.createElement("div");
+  monthGroup.className = "select-group";
+
+  const monthLabel = document.createElement("label");
+  monthLabel.htmlFor = "month-select";
+  monthLabel.textContent = "Month";
+  monthLabel.className = "sr-only"; // Hide visually
+
   monthSelect = document.createElement("select");
   monthSelect.id = "month-select";
   Object.keys(MONTHS).forEach((monthName, i) => {
@@ -104,6 +113,18 @@ function createCalendarStructure() {
     option.textContent = monthName;
     monthSelect.appendChild(option);
   });
+
+  monthGroup.appendChild(monthLabel);
+  monthGroup.appendChild(monthSelect);
+
+  // Create year select with label
+  const yearGroup = document.createElement("div");
+  yearGroup.className = "select-group";
+  
+  const yearLabel = document.createElement("label");
+  yearLabel.htmlFor = "year-select";
+  yearLabel.textContent = "Year";
+  yearLabel.className = "sr-only"; // Hide visually
 
   yearSelect = document.createElement("select");
   yearSelect.id = "year-select";
@@ -114,8 +135,12 @@ function createCalendarStructure() {
     yearSelect.appendChild(option);
   }
 
-  jumpControls.appendChild(monthSelect);
-  jumpControls.appendChild(yearSelect);
+  yearGroup.appendChild(yearLabel);
+  yearGroup.appendChild(yearSelect);
+
+  // FIX: Append the groups (which contain labels + selects) instead of just selects
+  jumpControls.appendChild(monthGroup);
+  jumpControls.appendChild(yearGroup);
 
   header.appendChild(prevButton);
   header.appendChild(monthYearDisplay);
