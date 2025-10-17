@@ -40,6 +40,8 @@ body {
 
 .month-year-display {
   margin: 0 1rem;
+  width: 200px;
+  text-align: center;
   color: #333;
   font-size: 1.5rem;
 }
