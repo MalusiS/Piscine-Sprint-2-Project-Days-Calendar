@@ -134,14 +134,14 @@ body {
 .commemoration-day {
   font-size: 0.7rem;
   background: #ffc107;
-  color: #856404;
+  color: #333;
   padding: 0.1rem 0.2rem;
   border-radius: 0.2rem;
-  white-space: normal; 
-  overflow-wrap: break-word; 
-  word-break: break-word; 
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
   max-width: 100%;
   flex-shrink: 1;
   box-sizing: border-box;
-  line-height: 1.2; 
+  line-height: 1.2;
 }
