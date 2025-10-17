@@ -70,6 +70,8 @@ body {
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+  width: 100%;
+  table-layout: fixed;
   background: #e2e8f0;
   gap: 1px;
   padding: 1px;
@@ -79,11 +81,13 @@ body {
 .day-cell {
   padding: 0.5rem;
   display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  position: relative;
+  flex-direction: column;
+  padding: 0.3rem;
   min-height: 80px;
   border-radius: 5px;
+  overflow: hidden;
+  word-wrap: break-word; /* Break long words */
+  min-width: 0;
   transition: background-color 0.2s;
 }
 
@@ -113,4 +117,31 @@ body {
 /* Filled day cell borders */
 .day-cell-filled {
   border: 1px solid #cbd5e0;
+}
+
+/* Day Number */
+.day-number {
+  margin-bottom: 0.2rem;
+  flex-shrink: 0;
+}
+
+/* Styling for commemoration day */
+.has-commemoration {
+  background: #fff3cd !important;
+  border-left: 3px solid #ffc107 !important;
+}
+
+.commemoration-day {
+  font-size: 0.7rem;
+  background: #ffc107;
+  color: #856404;
+  padding: 0.1rem 0.2rem;
+  border-radius: 0.2rem;
+  white-space: normal; 
+  overflow-wrap: break-word; 
+  word-break: break-word; 
+  max-width: 100%;
+  flex-shrink: 1;
+  box-sizing: border-box;
+  line-height: 1.2; 
 }
